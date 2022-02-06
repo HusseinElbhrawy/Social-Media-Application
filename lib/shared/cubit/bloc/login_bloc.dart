@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,6 +26,14 @@ class LoginBloc extends Cubit<SocialAppStates> {
     )
         .then((value) async {
       if (value.user!.emailVerified) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(value.user!.uid)
+            .update(
+          {
+            'emailVerification': value.user!.emailVerified,
+          },
+        );
         emit(LoginSuccessState(value.user!.emailVerified));
       } else {
         emit(PleaseVerifyYourAccountState());

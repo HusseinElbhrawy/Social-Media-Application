@@ -28,4 +28,18 @@ class RegisterLoadingState extends SocialAppStates {}
 
 class RegisterSuccessState extends SocialAppStates {}
 
-class RegisterFailState extends SocialAppStates {}
+class RegisterFailState extends SocialAppStates {
+  final String messageError;
+
+  RegisterFailState(this.messageError);
+}
+
+class CreateUserLoadingState extends SocialAppStates {}
+
+class CreateUserSuccessState extends SocialAppStates {}
+
+class CreateUserFailState extends SocialAppStates {
+  // final String messageError;
+  //
+  // CreateUserFailState(this.messageError);
+}

@@ -58,7 +58,7 @@ MotionToast errorMotionToast(state) {
     description: Text(state.messageError),
     position: MOTION_TOAST_POSITION.top,
     animationType: ANIMATION.fromTop,
-    toastDuration: const Duration(seconds: 1, milliseconds: 500),
+    toastDuration: const Duration(seconds: 1, milliseconds: 1000),
   );
 }
 

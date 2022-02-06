@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/shared/config/const.dart';
-import 'package:social_media_app/shared/cubit/bloc/login_bloc.dart';
 
-class LoginButton extends StatelessWidget {
-  const LoginButton({
+class CustomButton extends StatelessWidget {
+  const CustomButton({
     Key? key,
     required this.width,
     required this.password,
     required this.email,
+    required this.onPressed,
+    required this.title,
   }) : super(key: key);
 
   final double width;
   final String email;
   final String password;
+  final Function onPressed;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +49,8 @@ class LoginButton extends StatelessWidget {
             foregroundColor: MaterialStateProperty.all(Colors.white),
             backgroundColor: MaterialStateProperty.all(Colors.blue),
           ),
-          onPressed: () {
-            //ToDo:Login Validate and login to app
-            if (Form.of(context)!.validate()) {
-              LoginBloc.object(context).loginWithEmailAndPassword(
-                email: email,
-                password: password,
-              );
-            }
-          },
-          child: const Text('LOGIN'),
+          onPressed: () => onPressed(),
+          child: Text(title.toUpperCase()),
         ),
       ),
     );

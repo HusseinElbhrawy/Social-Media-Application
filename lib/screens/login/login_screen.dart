@@ -4,14 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:social_media_app/screens/home/home_screen.dart';
 import 'package:social_media_app/shared/config/components.dart';
 import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/bloc/login_bloc.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
 
+import 'components/custom_button.dart';
 import 'components/custom_text_form_filed.dart';
 import 'components/don_not_have_account_widget.dart';
-import 'components/login_button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -73,7 +74,14 @@ class LoginScreen extends StatelessWidget {
                         controller: passwordController,
                         prefixIcon: Icons.lock_outlined,
                         hintLabel: 'Password',
-                        onFieldSubmitted: (value) {},
+                        onFieldSubmitted: (newValue) {
+                          if (formKey.currentState!.validate()) {
+                            LoginBloc.object(context).loginWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                          }
+                        },
                         suffixIcon: IconButton(
                           onPressed: () {
                             loginCubit.changePasswordState();
@@ -97,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                     const Spacer(),
                     TextButton(
                       onPressed: () {},
-                      child: const Text('Forgor Password ? '),
+                      child: const Text('Forgot Password ? '),
                     )
                   ],
                 ),
@@ -113,6 +121,10 @@ class LoginScreen extends StatelessWidget {
                     } else if (state is LoginSuccessState) {
                       if (state.isEmailVerified) {
                         //ToDo: Go To Home Screen
+                        navigateToWithReplacement(
+                          context: context,
+                          nextPage: const HomeScreen(),
+                        );
                       }
                     } else if (state is PleaseVerifyYourAccountState) {
                       User? user = FirebaseAuth.instance.currentUser;
@@ -132,10 +144,19 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return LoginButton(
+                      return CustomButton(
+                        title: 'login',
                         width: width,
                         password: passwordController.text,
                         email: emailController.text,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            LoginBloc.object(context).loginWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                          }
+                        },
                       );
                     }
                   },

@@ -42,7 +42,12 @@ class CustomTextFormFiled extends StatelessWidget {
           color: Colors.black,
         ),
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
       ),
     );
   }

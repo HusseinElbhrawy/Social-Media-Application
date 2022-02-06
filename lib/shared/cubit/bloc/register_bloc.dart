@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
@@ -12,46 +13,64 @@ class RegisterBloc extends Cubit<SocialAppStates> {
     emit(ChangeRegisterPasswordStateFromShowToHidden());
   }
 
-  /*Future<UserCredential> registerWithEmailAndPassword(
-      {required email, required password}) async {
-    try {
-      _userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-    return_userCredential;
-  }*/
-
-  registerWithEmailAndPassword({required email, required password}) {
+  String messageError = '';
+  registerWithEmailAndPassword(
+      {required email, required password, required name, required phone}) {
     emit(RegisterLoadingState());
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then(
-      (value) {
+      (value) async {
         print(value);
-        emit(RegisterSuccessState());
+        if (value.user!.emailVerified == false) {
+          emit(PleaseVerifyYourAccountState());
+        } else {
+          emit(RegisterSuccessState());
+        }
+        _addUser(
+          uid: value.user!.uid,
+          name: name,
+          phone: phone,
+          email: email,
+          emailVerification: value.user!.emailVerified,
+        );
       },
     ).catchError(
       (error) {
         if (error.code == 'weak-password') {
-          print('The password provided is too weak.');
+          messageError = 'The password provided is too weak.';
         } else if (error.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+          messageError = 'The account already exists for that email.';
         } else {
-          print(error.message);
+          messageError = error.message;
         }
-        emit(RegisterFailState());
+        emit(RegisterFailState(messageError));
       },
     );
+  }
+
+  _addUser(
+      {required name,
+      required email,
+      required phone,
+      required uid,
+      required emailVerification}) async {
+    try {
+      emit(CreateUserLoadingState());
+
+      FirebaseFirestore.instance.collection('users').doc(uid).set(
+        {
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'uId': uid,
+          'emailVerification': emailVerification,
+        },
+      );
+      emit(CreateUserSuccessState());
+    } catch (e) {
+      print(e);
+      emit(CreateUserFailState());
+    }
   }
 }
