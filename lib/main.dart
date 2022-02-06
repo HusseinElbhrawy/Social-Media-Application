@@ -1,10 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/screens/login/login_screen.dart';
 import 'package:social_media_app/shared/config/light_theme.dart';
 import 'package:social_media_app/shared/cubit/bloc_observer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   BlocOverrides.runZoned(
     () {
       runApp(const MyApp());

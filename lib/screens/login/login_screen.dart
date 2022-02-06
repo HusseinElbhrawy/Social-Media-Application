@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/bloc/login_bloc.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
@@ -101,10 +103,19 @@ class LoginScreen extends StatelessWidget {
                     indent: width / 25,
                     endIndent: width / 25,
                   ),
-                  LoginButton(
-                    width: width,
-                    password: passwordController.text,
-                    email: emailController.text,
+                  BlocConsumer<LoginBloc, SocialAppStates>(
+                    listener: (BuildContext context, state) {
+                      if (state is LoginFailState) {
+                        errorMotionToast(state).show(context);
+                      }
+                    },
+                    builder: (BuildContext context, Object? state) {
+                      return LoginButton(
+                        width: width,
+                        password: passwordController.text,
+                        email: emailController.text,
+                      );
+                    },
                   ),
                   const DontHaveAccountAndRegisterWidget(),
                 ],
@@ -113,6 +124,16 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  MotionToast errorMotionToast(LoginFailState state) {
+    return MotionToast.error(
+      title: const Text("Error"),
+      description: Text(state.messageError),
+      position: MOTION_TOAST_POSITION.top,
+      animationType: ANIMATION.fromTop,
+      toastDuration: const Duration(seconds: 1, milliseconds: 500),
     );
   }
 }

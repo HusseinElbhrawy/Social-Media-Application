@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/shared/cubit/bloc/login_bloc.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
@@ -31,7 +32,18 @@ class LoginButton extends StatelessWidget {
         ),
         onPressed: () {
           //ToDo:Login Validate and login to app
-          if (Form.of(context)!.validate()) {}
+          if (Form.of(context)!.validate()) {
+            LoginBloc.object(context).loginWithEmailAndPassword(
+              email: email,
+              password: password,
+            ) /*
+                .then((value) {
+              print(value);
+            }).catchError((error) {
+              print('Error While sign in $error');
+            })*/
+                ;
+          }
         },
         child: const Text('LOGIN'),
       ),

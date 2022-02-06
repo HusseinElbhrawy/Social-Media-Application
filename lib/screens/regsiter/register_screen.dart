@@ -167,7 +167,11 @@ class RegisterScreen extends StatelessWidget {
                                 MaterialStateProperty.all(Colors.white),
                           ),
                           onPressed: () {
-                            validateAndRegister(RegisterBloc.object(context));
+                            validateAndRegister(
+                              RegisterBloc.object(context),
+                              password: passwordController.text,
+                              email: emailController.text,
+                            );
                           },
                           child: Text(
                             'register'.toUpperCase(),
@@ -185,8 +189,13 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  void validateAndRegister(RegisterBloc registerCubit) {
+  void validateAndRegister(RegisterBloc registerCubit,
+      {required email, required password}) {
     if (formKey.currentState!.validate()) {
+      registerCubit.registerWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       //ToDo:Register Method Here
     }
   }
