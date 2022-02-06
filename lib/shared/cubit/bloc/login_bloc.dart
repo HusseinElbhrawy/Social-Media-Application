@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
 
 class LoginBloc extends Cubit<SocialAppStates> {
@@ -23,8 +24,11 @@ class LoginBloc extends Cubit<SocialAppStates> {
       password: password,
     )
         .then((value) async {
-      print(value);
-      emit(LoginSuccessState());
+      if (value.user!.emailVerified) {
+        emit(LoginSuccessState(value.user!.emailVerified));
+      } else {
+        emit(PleaseVerifyYourAccountState());
+      }
     }).catchError((error) {
       if (error.code == 'user-not-found') {
         messageError = 'No user found for that email.';
@@ -34,6 +38,31 @@ class LoginBloc extends Cubit<SocialAppStates> {
         messageError = error.message;
       }
       emit(LoginFailState(messageError));
+    });
+  }
+
+  Future<UserCredential> _signInWithGoogleMethod() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  void signInWithGoogle() {
+    emit(LoginLoadingState());
+    _signInWithGoogleMethod().then((value) {
+      print(value);
+      emit(LoginSuccessState(value.user!.emailVerified));
+    }).catchError((error) {
+      print(error.message);
+      emit(LoginFailState(error.message));
     });
   }
 }

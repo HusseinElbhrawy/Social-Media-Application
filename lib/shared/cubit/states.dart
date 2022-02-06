@@ -10,7 +10,13 @@ class ChangeRegisterPasswordStateFromShowToHidden extends SocialAppStates {}
 
 class LoginLoadingState extends SocialAppStates {}
 
-class LoginSuccessState extends SocialAppStates {}
+class PleaseVerifyYourAccountState extends SocialAppStates {}
+
+class LoginSuccessState extends SocialAppStates {
+  final bool isEmailVerified;
+
+  LoginSuccessState(this.isEmailVerified);
+}
 
 class LoginFailState extends SocialAppStates {
   final String messageError;
