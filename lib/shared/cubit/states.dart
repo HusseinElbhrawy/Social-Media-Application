@@ -67,3 +67,5 @@ class SignOutLoading extends SocialAppStates {}
 class SignOutSuccess extends SocialAppStates {}
 
 class SignOutFail extends SocialAppStates {}
+
+class ChangeBottomNavigationIndex extends SocialAppStates {}

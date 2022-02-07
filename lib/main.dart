@@ -5,8 +5,8 @@ import 'package:social_media_app/screens/home/home_screen.dart';
 import 'package:social_media_app/screens/login/login_screen.dart';
 import 'package:social_media_app/shared/cached/cached_helper.dart';
 import 'package:social_media_app/shared/config/const.dart';
-import 'package:social_media_app/shared/config/light_theme.dart';
 import 'package:social_media_app/shared/cubit/bloc_observer.dart';
+import 'package:social_media_app/shared/styles/light_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_media_app/shared/cached/cached_helper.dart';
-import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/bloc/home_screen_bloc.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
+import 'package:social_media_app/shared/styles/IconBroken.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,28 +12,36 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) =>
           HomeScreenBloc()..getCurrentUser(context: context),
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  print(CachedHelper.getData(key: kLoginUid));
-                },
-                icon: Icon(Icons.add))
-          ],
-          title: Text(
-            'Home Feeds',
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  fontFamily: 'firecode',
-                  fontWeight: FontWeight.bold,
+      child: BlocConsumer<HomeScreenBloc, SocialAppStates>(
+        listener: (BuildContext context, state) {},
+        builder: (BuildContext context, Object? state) {
+          var homeScreenCubit = HomeScreenBloc.object(context);
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                homeScreenCubit
+                    .appBarTitle[homeScreenCubit.bottomNavigationCurrentIndex],
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                      fontFamily: 'firecode',
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    IconBroken.Search,
+                  ),
                 ),
-          ),
-        ),
-        body: BlocConsumer<HomeScreenBloc, SocialAppStates>(
-          listener: (BuildContext context, state) {},
-          builder: (BuildContext context, Object? state) {
-            var homeScreenCubit = HomeScreenBloc.object(context);
-            return Column(
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    IconBroken.Notification,
+                  ),
+                ),
+              ],
+            ),
+            body: Column(
               children: [
                 state is SignOutLoading
                     ? const Center(child: LinearProgressIndicator())
@@ -48,10 +55,38 @@ class HomeScreen extends StatelessWidget {
                           },
                         ),
                       ),
+                homeScreenCubit
+                    .screens[homeScreenCubit.bottomNavigationCurrentIndex],
               ],
-            );
-          },
-        ),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: homeScreenCubit.bottomNavigationCurrentIndex,
+              onTap: (newIndex) {
+                homeScreenCubit.changeBottomNavigationBarIndex(
+                    newIndex: newIndex);
+              },
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Chat),
+                  label: 'Chat',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Location),
+                  label: 'Location',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Setting),
+                  label: 'Setting',
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
