@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media_app/shared/cached/cached_helper.dart';
+import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
 
 class RegisterBloc extends Cubit<SocialAppStates> {
@@ -23,17 +25,40 @@ class RegisterBloc extends Cubit<SocialAppStates> {
       (value) async {
         print(value);
         if (value.user!.emailVerified == false) {
-          emit(PleaseVerifyYourAccountState());
+          try {
+            emit(PleaseVerifyYourAccountState());
+            await _addUser(
+              uid: value.user!.uid,
+              name: name,
+              phone: phone,
+              email: email,
+              emailVerification: value.user!.emailVerified,
+            );
+            /*await CachedHelper.setData(
+              key: kLoginUid,
+              value: value.user!.uid.toString(),
+            );*/
+          } catch (e) {
+            print(e);
+          }
         } else {
-          emit(RegisterSuccessState());
+          try {
+            emit(RegisterSuccessState());
+            await _addUser(
+              uid: value.user!.uid,
+              name: name,
+              phone: phone,
+              email: email,
+              emailVerification: value.user!.emailVerified,
+            );
+            await CachedHelper.setData(
+              key: kLoginUid,
+              value: value.user!.uid.toString(),
+            );
+          } catch (e) {
+            print(e);
+          }
         }
-        _addUser(
-          uid: value.user!.uid,
-          name: name,
-          phone: phone,
-          email: email,
-          emailVerification: value.user!.emailVerified,
-        );
       },
     ).catchError(
       (error) {
@@ -49,12 +74,13 @@ class RegisterBloc extends Cubit<SocialAppStates> {
     );
   }
 
-  _addUser(
-      {required name,
-      required email,
-      required phone,
-      required uid,
-      required emailVerification}) async {
+  _addUser({
+    required name,
+    required email,
+    required phone,
+    required uid,
+    required emailVerification,
+  }) async {
     try {
       emit(CreateUserLoadingState());
 

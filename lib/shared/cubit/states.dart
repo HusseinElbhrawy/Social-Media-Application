@@ -43,3 +43,27 @@ class CreateUserFailState extends SocialAppStates {
   //
   // CreateUserFailState(this.messageError);
 }
+
+class HomeScreenInitialState extends SocialAppStates {}
+
+class GetCurrentUserLoading extends SocialAppStates {}
+
+class GetCurrentUserSuccess extends SocialAppStates {}
+
+class GetCurrentUserFail extends SocialAppStates {}
+
+class SendVerificationEmailLoading extends SocialAppStates {}
+
+class SendVerificationEmailSuccess extends SocialAppStates {}
+
+class SendVerificationEmailFail extends SocialAppStates {
+  final String errorMessage;
+
+  SendVerificationEmailFail(this.errorMessage);
+}
+
+class SignOutLoading extends SocialAppStates {}
+
+class SignOutSuccess extends SocialAppStates {}
+
+class SignOutFail extends SocialAppStates {}

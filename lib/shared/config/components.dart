@@ -52,10 +52,10 @@ class CachedNetworkImageProgressIndicator extends StatelessWidget {
   }
 }
 
-MotionToast errorMotionToast(state) {
+MotionToast errorMotionToast(String messageDescription) {
   return MotionToast.error(
     title: const Text("Error"),
-    description: Text(state.messageError),
+    description: Text(messageDescription),
     position: MOTION_TOAST_POSITION.top,
     animationType: ANIMATION.fromTop,
     toastDuration: const Duration(seconds: 1, milliseconds: 1000),

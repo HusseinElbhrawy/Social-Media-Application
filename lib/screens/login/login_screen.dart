@@ -117,7 +117,8 @@ class LoginScreen extends StatelessWidget {
                 BlocConsumer<LoginBloc, SocialAppStates>(
                   listener: (BuildContext context, state) async {
                     if (state is LoginFailState) {
-                      errorMotionToast(state).show(context);
+                      errorMotionToast(state.messageError.toString())
+                          .show(context);
                     } else if (state is LoginSuccessState) {
                       if (state.isEmailVerified) {
                         //ToDo: Go To Home Screen
@@ -130,7 +131,11 @@ class LoginScreen extends StatelessWidget {
                       User? user = FirebaseAuth.instance.currentUser;
 
                       if (user != null && !user.emailVerified) {
-                        await user.sendEmailVerification();
+                        await user.sendEmailVerification().then((value) {
+                          return value;
+                        }).catchError((error) {
+                          print(error);
+                        });
                       }
                       warningMotionToast().show(context);
                     }

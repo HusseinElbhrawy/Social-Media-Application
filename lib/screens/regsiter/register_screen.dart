@@ -164,7 +164,8 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is RegisterFailState) {
-                      errorMotionToast(state).show(context);
+                      errorMotionToast(state.messageError.toString())
+                          .show(context);
                     }
                   },
                   builder: (BuildContext context, Object? state) {
