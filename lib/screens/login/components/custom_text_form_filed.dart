@@ -11,6 +11,7 @@ class CustomTextFormFiled extends StatelessWidget {
     this.keyboardType,
     this.isPassword = false,
     this.onFieldSubmitted,
+    this.enable = true,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class CustomTextFormFiled extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? isPassword;
   final Function? onFieldSubmitted;
+  final bool enable;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -34,6 +36,7 @@ class CustomTextFormFiled extends StatelessWidget {
       onFieldSubmitted: (value) =>
           isPassword as bool ? onFieldSubmitted!(value) : (value) {},
       keyboardType: keyboardType,
+      enabled: enable,
       obscureText: isPassword as bool,
       decoration: InputDecoration(
         label: Text(hintLabel),
@@ -42,12 +45,14 @@ class CustomTextFormFiled extends StatelessWidget {
           color: Colors.black,
         ),
         suffixIcon: suffixIcon,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-        ),
+        border: enable
+            ? const OutlineInputBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              )
+            : InputBorder.none,
       ),
     );
   }

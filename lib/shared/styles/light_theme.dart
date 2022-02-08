@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
-var lightTheme = ThemeData(
-  scaffoldBackgroundColor: Colors.white,
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    elevation: 20.0,
-    backgroundColor: Colors.white,
-  ),
-  appBarTheme: const AppBarTheme(
-    titleTextStyle: TextStyle(color: Colors.black),
-    color: Colors.white,
-    elevation: 0.0,
-    iconTheme: IconThemeData(color: Colors.black),
-  ),
-);
+lightTheme(context) => ThemeData(
+      scaffoldBackgroundColor: Colors.white,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        elevation: 20.0,
+        backgroundColor: Colors.white,
+      ),
+      appBarTheme: AppBarTheme(
+        titleTextStyle: Theme.of(context).textTheme.headline6!.copyWith(
+              fontFamily: 'firecode',
+              fontWeight: FontWeight.bold,
+            ),
+        color: Colors.white,
+        elevation: 0.0,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
+    );

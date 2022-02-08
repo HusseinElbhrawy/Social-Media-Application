@@ -43,7 +43,7 @@ class PostWidget extends StatelessWidget {
                       MediaQuery.of(context).orientation == Orientation.portrait
                           ? width / 8
                           : width / 15,
-                  subImage: subImage,
+                  profileImage: subImage,
                 ),
                 const SizedBox(width: 15),
                 UserNameAndDate(width: width),
@@ -91,7 +91,7 @@ class PostWidget extends StatelessWidget {
                       MediaQuery.of(context).orientation == Orientation.portrait
                           ? width / 10
                           : width / 20,
-                  subImage: subImage,
+                  profileImage: subImage,
                   inComment: true,
                 ),
                 const SizedBox(width: 10),

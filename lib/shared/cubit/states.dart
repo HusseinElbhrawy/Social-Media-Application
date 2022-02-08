@@ -81,3 +81,17 @@ class GetCurrentUserDataLoading extends SocialAppStates {}
 class GetCurrentUserDataFail extends SocialAppStates {}
 
 class GetCurrentUserDataSuccess extends SocialAppStates {}
+
+class EditScreenInitialState extends SocialAppStates {}
+
+class PickedProfileImageLoading extends SocialAppStates {}
+
+class PickedProfileImageSuccess extends SocialAppStates {}
+
+class PickedProfileImageFail extends SocialAppStates {}
+
+class PickedProfileCoverLoading extends SocialAppStates {}
+
+class PickedProfileCoverSuccess extends SocialAppStates {}
+
+class PickedProfileCoverFail extends SocialAppStates {}
