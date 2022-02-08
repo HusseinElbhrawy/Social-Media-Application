@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/screens/chat/chats_screen.dart';
 import 'package:social_media_app/screens/feeds/feeds_screen.dart';
 import 'package:social_media_app/screens/login/login_screen.dart';
+import 'package:social_media_app/screens/newpost/new_post_screen.dart';
 import 'package:social_media_app/screens/settings/settings_screen.dart';
 import 'package:social_media_app/screens/users/users_screen.dart';
 import 'package:social_media_app/shared/config/components.dart';
@@ -56,17 +57,23 @@ class HomeScreenBloc extends Cubit<SocialAppStates> {
   List screens = [
     const FeedsScreen(),
     const ChatScreen(),
+    const AddNewPostScreen(),
     const UsersScreen(),
     const SettingsScreen(),
   ];
   List appBarTitle = [
     'News Feeds',
     'Chats',
+    'Posts',
     'Users',
     'Settings',
   ];
   changeBottomNavigationBarIndex({required int newIndex}) {
-    bottomNavigationCurrentIndex = newIndex;
-    emit(ChangeBottomNavigationIndex());
+    if (newIndex == 2) {
+      emit(OpenAddNewPostScreen());
+    } else {
+      bottomNavigationCurrentIndex = newIndex;
+      emit(ChangeBottomNavigationIndex());
+    }
   }
 }

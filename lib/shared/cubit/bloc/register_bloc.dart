@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media_app/models/user_model.dart';
 import 'package:social_media_app/shared/cached/cached_helper.dart';
 import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
@@ -84,15 +85,19 @@ class RegisterBloc extends Cubit<SocialAppStates> {
     try {
       emit(CreateUserLoadingState());
 
+      UserModel model = UserModel.fromJson({
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'uId': uid,
+        'image':
+            'https://image.freepik.com/free-vector/man-shows-gesture-great-idea_10045-637.jpg?w=740',
+        'emailVerification': emailVerification,
+        'bio': 'Write your bio.....',
+      });
       FirebaseFirestore.instance.collection('users').doc(uid).set(
-        {
-          'name': name,
-          'email': email,
-          'phone': phone,
-          'uId': uid,
-          'emailVerification': emailVerification,
-        },
-      );
+            model.toJson(),
+          );
       emit(CreateUserSuccessState());
     } catch (e) {
       print(e);

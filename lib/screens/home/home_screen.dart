@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media_app/screens/home/components/verify_widget.dart';
+import 'package:social_media_app/screens/newpost/new_post_screen.dart';
+import 'package:social_media_app/shared/config/components.dart';
 import 'package:social_media_app/shared/cubit/bloc/home_screen_bloc.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
 import 'package:social_media_app/shared/styles/IconBroken.dart';
@@ -13,7 +16,11 @@ class HomeScreen extends StatelessWidget {
       create: (BuildContext context) =>
           HomeScreenBloc()..getCurrentUser(context: context),
       child: BlocConsumer<HomeScreenBloc, SocialAppStates>(
-        listener: (BuildContext context, state) {},
+        listener: (BuildContext context, state) {
+          if (state is OpenAddNewPostScreen) {
+            navigateTo(context: context, nextPage: const AddNewPostScreen());
+          }
+        },
         builder: (BuildContext context, Object? state) {
           var homeScreenCubit = HomeScreenBloc.object(context);
           return Scaffold(
@@ -41,24 +48,36 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body: Column(
-              children: [
-                state is SignOutLoading
-                    ? const Center(child: LinearProgressIndicator())
-                    : Visibility(
-                        visible: homeScreenCubit.instanceCurrentUser.currentUser
-                                ?.emailVerified ==
-                            false,
-                        child: VerifyWarningWidget(
-                          onTap: () async {
-                            await homeScreenCubit.signOut(context: context);
-                          },
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  state is SignOutLoading
+                      ? const Center(child: LinearProgressIndicator())
+                      : Visibility(
+                          visible: homeScreenCubit.instanceCurrentUser
+                                  .currentUser?.emailVerified ==
+                              false,
+                          child: VerifyWarningWidget(
+                            onTap: () async {
+                              await homeScreenCubit.signOut(context: context);
+                            },
+                          ),
                         ),
-                      ),
-                homeScreenCubit
-                    .screens[homeScreenCubit.bottomNavigationCurrentIndex],
-              ],
+                  homeScreenCubit
+                      .screens[homeScreenCubit.bottomNavigationCurrentIndex],
+                ],
+              ),
             ),
+            /*floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.white,
+              onPressed: () {
+              },
+              child: const Icon(
+                IconBroken.Paper_Upload,
+                color: Colors.black,
+              ),
+            ),*/
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: homeScreenCubit.bottomNavigationCurrentIndex,
               onTap: (newIndex) {
@@ -76,6 +95,10 @@ class HomeScreen extends StatelessWidget {
                   label: 'Chat',
                 ),
                 BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Paper_Upload),
+                  label: 'Post',
+                ),
+                BottomNavigationBarItem(
                   icon: Icon(IconBroken.Location),
                   label: 'Location',
                 ),
@@ -87,37 +110,6 @@ class HomeScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class VerifyWarningWidget extends StatelessWidget {
-  const VerifyWarningWidget({
-    Key? key,
-    required this.onTap,
-  }) : super(key: key);
-  final Function onTap;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.amber,
-      child: ListTile(
-        leading: const Icon(
-          Icons.info,
-          color: Colors.black,
-        ),
-        title: Text(
-          'Please log in again to Verify Your account',
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'firecode',
-              ),
-        ),
-        trailing: TextButton(
-          onPressed: () => onTap(),
-          child: Text('Done'.toUpperCase()),
-        ),
       ),
     );
   }

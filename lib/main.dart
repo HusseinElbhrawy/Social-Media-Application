@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
+      // themeMode: ThemeMode.dark,
       home: loginUid.isNotEmpty ? const HomeScreen() : const LoginScreen(),
     );
   }

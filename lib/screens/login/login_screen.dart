@@ -20,6 +20,11 @@ class LoginScreen extends StatelessWidget {
   static final passwordController = TextEditingController();
   static final formKey = GlobalKey<FormState>();
 
+  void clearController() {
+    emailController.clear();
+    passwordController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -126,6 +131,7 @@ class LoginScreen extends StatelessWidget {
                           context: context,
                           nextPage: const HomeScreen(),
                         );
+                        clearController();
                       }
                     } else if (state is PleaseVerifyYourAccountState) {
                       User? user = FirebaseAuth.instance.currentUser;
