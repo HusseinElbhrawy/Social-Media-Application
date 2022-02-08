@@ -4,7 +4,8 @@ class UserModel {
   String? email;
   String? uId;
   String? bio;
-  String? image;
+  String? profileImage;
+  String? coverImage;
   bool? isEmailVerified;
 
   UserModel({
@@ -13,7 +14,7 @@ class UserModel {
     this.email,
     this.uId,
     this.isEmailVerified,
-    this.image,
+    this.profileImage,
     this.bio,
   });
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -21,7 +22,8 @@ class UserModel {
     phone = json['phone'];
     email = json['email']?.toString();
     uId = json['uId']?.toString();
-    image = json['image'];
+    profileImage = json['image'];
+    coverImage = json['coverImage'];
     isEmailVerified = json['emailVerification'];
     bio = json['bio']?.toString();
   }
@@ -33,7 +35,8 @@ class UserModel {
     data['uId'] = uId;
     data['bio'] = bio;
     data['emailVerification'] = isEmailVerified;
-    data['image'] = image;
+    data['image'] = profileImage;
+    data['coverImage'] = coverImage;
     return data;
   }
 }

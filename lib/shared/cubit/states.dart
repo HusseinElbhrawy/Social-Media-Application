@@ -71,3 +71,13 @@ class SignOutFail extends SocialAppStates {}
 class ChangeBottomNavigationIndex extends SocialAppStates {}
 
 class OpenAddNewPostScreen extends SocialAppStates {}
+
+class SettingScreenInitialState extends SocialAppStates {}
+
+class GetCurrentUserUId extends SocialAppStates {}
+
+class GetCurrentUserDataLoading extends SocialAppStates {}
+
+class GetCurrentUserDataFail extends SocialAppStates {}
+
+class GetCurrentUserDataSuccess extends SocialAppStates {}
