@@ -72,3 +72,13 @@ MotionToast warningMotionToast() {
     toastDuration: const Duration(seconds: 1, milliseconds: 1000),
   );
 }
+
+MotionToast successMotionToast(String description) {
+  return MotionToast.success(
+    title: const Text("Success"),
+    description: Text(description),
+    position: MOTION_TOAST_POSITION.top,
+    animationType: ANIMATION.fromTop,
+    toastDuration: const Duration(seconds: 1, milliseconds: 1000),
+  );
+}

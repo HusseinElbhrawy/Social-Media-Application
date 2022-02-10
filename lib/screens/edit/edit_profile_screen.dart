@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/screens/login/components/custom_text_form_filed.dart';
 import 'package:social_media_app/screens/settings/components/profile_image_cover.dart';
+import 'package:social_media_app/shared/config/components.dart';
 import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/bloc/edit_screen_bloc.dart';
 import 'package:social_media_app/shared/cubit/bloc/settings_screen_bloc.dart';
@@ -36,7 +37,16 @@ class EditProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => EditScreenBloc(),
       child: BlocConsumer<EditScreenBloc, SocialAppStates>(
-        listener: (BuildContext context, state) {},
+        listener: (BuildContext context, state) {
+          if (state is UploadImageToStorageSuccess ||
+              state is UpdateChangesSuccess) {
+            successMotionToast('Operation Done').show(context);
+            Future.delayed(const Duration(seconds: 1, milliseconds: 500))
+                .then((value) {
+              Navigator.pop(context);
+            });
+          }
+        },
         builder: (BuildContext context, Object? state) {
           var editScreenCubit = EditScreenBloc.object(context);
           var height = MediaQuery.of(context).size.height;
@@ -58,38 +68,9 @@ class EditProfileScreen extends StatelessWidget {
                     builder: (BuildContext context, Object? state) =>
                         TextButton(
                       onPressed: () async {
-                        editScreenCubit.profileImageFile != null
-                            ? await editScreenCubit.uploadImage(
-                                imageName:
-                                    editScreenCubit.pickedProfileImage?.name ??
-                                        profileImage,
-                                root: 'profileImage',
-                                file: editScreenCubit.profileImageFile as File,
-                                isProfileCoverImage: false,
-                              )
-                            : editScreenCubit.profileImageUrl = profileImage;
-                        editScreenCubit.profileCoverImageFile != null
-                            ? await editScreenCubit.uploadImage(
-                                imageName:
-                                    editScreenCubit.pickedProfileImage?.name ??
-                                        profileImage,
-                                root: 'profileCover',
-                                file: editScreenCubit.profileCoverImageFile
-                                    as File,
-                                isProfileCoverImage: true,
-                              )
-                            : editScreenCubit.profileCoverImageUrl =
-                                profileCover;
-
-                        await editScreenCubit.updateUserInformation(
-                          imageUrl: profileImage,
-                          coverImageUrl: profileCover,
-                          name: nameController.text,
-                          bio: bioController.text,
-                          phone: phoneController.text,
-                          settingsScreenBloc:
-                              SettingsScreenBloc.object(context),
-                        );
+                        editScreenCubit.editUserInformation = false;
+                        await handlingUpdateUserInformation(
+                            editScreenCubit, context);
                       },
                       child: Text(
                         'Update'.toUpperCase(),
@@ -109,9 +90,11 @@ class EditProfileScreen extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Visibility(
-                    visible: false,
-                    child: Padding(
+                  Visibility(
+                    visible: state is UploadImageToStorageLoading ||
+                        state is UpdateChangesLoading ||
+                        state is PickedProfileImageLoading,
+                    child: const Padding(
                       padding: EdgeInsets.all(kDefaultPadding * 1.5),
                       child: LinearProgressIndicator(),
                     ),
@@ -183,6 +166,35 @@ class EditProfileScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Future<void> handlingUpdateUserInformation(
+      EditScreenBloc editScreenCubit, BuildContext context) async {
+    editScreenCubit.profileImageFile != null
+        ? await editScreenCubit.uploadImage(
+            imageName: editScreenCubit.pickedProfileImage?.name ?? profileImage,
+            root: 'profileImage',
+            file: editScreenCubit.profileImageFile as File,
+            isProfileCoverImage: false,
+          )
+        : editScreenCubit.profileImageUrl = profileImage;
+    editScreenCubit.profileCoverImageFile != null
+        ? await editScreenCubit.uploadImage(
+            imageName: editScreenCubit.pickedProfileImage?.name ?? profileImage,
+            root: 'profileCover',
+            file: editScreenCubit.profileCoverImageFile as File,
+            isProfileCoverImage: true,
+          )
+        : editScreenCubit.profileCoverImageUrl = profileCover;
+
+    await editScreenCubit.updateUserInformation(
+      imageUrl: profileImage,
+      coverImageUrl: profileCover,
+      name: nameController.text,
+      bio: bioController.text,
+      phone: phoneController.text,
+      settingsScreenBloc: SettingsScreenBloc.object(context),
     );
   }
 }

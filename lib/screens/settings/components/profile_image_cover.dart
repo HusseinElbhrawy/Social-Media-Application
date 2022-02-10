@@ -8,7 +8,6 @@ import 'package:social_media_app/shared/styles/IconBroken.dart';
 class ProfileCoverAndPicture extends StatelessWidget {
   const ProfileCoverAndPicture({
     Key? key,
-    // this.settingsScreenBloc,
     required this.width,
     this.profileImageFile,
     this.isEditScreen = false,
@@ -41,14 +40,15 @@ class ProfileCoverAndPicture extends StatelessWidget {
           children: [
             Align(
               alignment: AlignmentDirectional.topCenter,
-              heightFactor: 1.3,
+              heightFactor: 1.2,
               child: profileCoverFile != null
-                  ? Image.file(profileCoverFile as File)
+                  ? Image.file(
+                      profileCoverFile as File,
+                    )
                   : CustomCachedNetworkImage(
                       imageUrl: isEditScreen
                           ? profileCover.toString()
-                          : profileUserCoverImage
-                              .toString() /*settingsScreenBloc!.userModel.coverImage.toString()*/,
+                          : profileUserCoverImage.toString(),
                     ),
             ),
             Visibility(
@@ -79,8 +79,7 @@ class ProfileCoverAndPicture extends StatelessWidget {
                         : width / 6,
                 profileImage: isEditScreen
                     ? profileImage.toString()
-                    : profileUserImage
-                        .toString() /*settingsScreenBloc!.userModel.profileImage.toString()*/,
+                    : profileUserImage.toString(),
               ),
             ),
             Visibility(
