@@ -135,7 +135,9 @@ class LoginScreen extends StatelessWidget {
                           print(error);
                         });
                       }
-                      warningMotionToast().show(context);
+                      warningMotionToast(
+                              'We sent a email verification, Please verify your account to be able to sign in ')
+                          .show(context);
                     }
                   },
                   builder: (BuildContext context, Object? state) {

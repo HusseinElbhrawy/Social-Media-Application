@@ -62,13 +62,16 @@ MotionToast errorMotionToast(String messageDescription) {
   );
 }
 
-MotionToast warningMotionToast() {
+MotionToast warningMotionToast(
+  String description, {
+  MOTION_TOAST_POSITION? position,
+  ANIMATION? animationType,
+}) {
   return MotionToast.warning(
     title: const Text("Warning"),
-    description: const Text(
-        'We sent a email verification, Please verify your account to be able to sign in '),
-    position: MOTION_TOAST_POSITION.top,
-    animationType: ANIMATION.fromTop,
+    description: Text(description),
+    position: position ?? MOTION_TOAST_POSITION.bottom,
+    animationType: animationType ?? ANIMATION.fromBottom,
     toastDuration: const Duration(seconds: 1, milliseconds: 1000),
   );
 }

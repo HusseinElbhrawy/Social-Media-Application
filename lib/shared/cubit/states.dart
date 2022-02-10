@@ -76,6 +76,7 @@ class SettingScreenInitialState extends SocialAppStates {}
 
 class GetCurrentUserUId extends SocialAppStates {}
 
+//Get Current User data from database
 class GetCurrentUserDataLoading extends SocialAppStates {}
 
 class GetCurrentUserDataFail extends SocialAppStates {}
@@ -84,6 +85,7 @@ class GetCurrentUserDataSuccess extends SocialAppStates {}
 
 class EditScreenInitialState extends SocialAppStates {}
 
+//Picked Profile image and cover  States
 class PickedProfileImageLoading extends SocialAppStates {}
 
 class PickedProfileImageSuccess extends SocialAppStates {}
@@ -96,12 +98,14 @@ class PickedProfileCoverSuccess extends SocialAppStates {}
 
 class PickedProfileCoverFail extends SocialAppStates {}
 
+//Upload Images to Storage   States
 class UploadImageToStorageLoading extends SocialAppStates {}
 
 class UploadImageToStorageSuccess extends SocialAppStates {}
 
 class UploadImageToStorageFail extends SocialAppStates {}
 
+//Update Database  States
 class UpdateChangesLoading extends SocialAppStates {}
 
 class UpdateChangesSuccess extends SocialAppStates {}
@@ -109,3 +113,31 @@ class UpdateChangesSuccess extends SocialAppStates {}
 class UpdateChangesFail extends SocialAppStates {}
 
 class ChangeEditUserInformationState extends SocialAppStates {}
+
+//Create Post States
+class CreatePostScreenInitialState extends SocialAppStates {}
+
+class CreatePostLoading extends SocialAppStates {}
+
+class CreatePostSuccess extends SocialAppStates {}
+
+class CreatePostFail extends SocialAppStates {}
+
+//Picked Image For post
+
+class PickedImageForPostLoading extends SocialAppStates {}
+
+class PickedImageForPostSuccess extends SocialAppStates {}
+
+class PickedImageForPostFail extends SocialAppStates {}
+
+//Upload Picked Image For post
+
+class UploadPickedImageForPostLoading extends SocialAppStates {}
+
+class UploadPickedImageForPostSuccess extends SocialAppStates {}
+
+class UploadPickedImageForPostFail extends SocialAppStates {}
+
+//Clear Selected image for post
+class ClearSelectedImageForPost extends SocialAppStates {}

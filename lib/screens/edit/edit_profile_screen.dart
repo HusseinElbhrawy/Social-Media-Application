@@ -45,6 +45,13 @@ class EditProfileScreen extends StatelessWidget {
                 .then((value) {
               Navigator.pop(context);
             });
+          } else if (state is UploadImageToStorageFail ||
+              state is UpdateChangesFail) {
+            errorMotionToast('Error To update Information').show(context);
+            Future.delayed(const Duration(seconds: 1, milliseconds: 500))
+                .then((value) {
+              Navigator.pop(context);
+            });
           }
         },
         builder: (BuildContext context, Object? state) {
@@ -65,24 +72,25 @@ class EditProfileScreen extends StatelessWidget {
                   create: (BuildContext context) => SettingsScreenBloc(),
                   child: BlocConsumer<SettingsScreenBloc, SocialAppStates>(
                     listener: (BuildContext context, state) {},
-                    builder: (BuildContext context, Object? state) =>
-                        TextButton(
-                      onPressed: () async {
-                        editScreenCubit.editUserInformation = false;
-                        await handlingUpdateUserInformation(
-                            editScreenCubit, context);
-                      },
-                      child: Text(
-                        'Update'.toUpperCase(),
-                      ),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                          const EdgeInsets.all(
-                            kDefaultPadding * 1.5,
+                    builder: (BuildContext context, Object? state) {
+                      return TextButton(
+                        onPressed: () async {
+                          editScreenCubit.editUserInformation = false;
+                          await handlingUpdateUserInformation(
+                              editScreenCubit, context);
+                        },
+                        child: Text(
+                          'Update'.toUpperCase(),
+                        ),
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                            const EdgeInsets.all(
+                              kDefaultPadding * 1.5,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
