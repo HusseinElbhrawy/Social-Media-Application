@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:social_media_app/screens/home/home_screen.dart';
 import 'package:social_media_app/shared/config/components.dart';
 import 'package:social_media_app/shared/config/const.dart';
@@ -34,25 +34,17 @@ class LoginScreen extends StatelessWidget {
       child: Form(
         key: formKey,
         child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle:
-                const SystemUiOverlayStyle(statusBarColor: Colors.white),
-          ),
+          appBar: AppBar(),
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                    start: kDefaultPadding,
-                  ),
-                  child: Text(
-                    'Login',
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'firecode',
-                        ),
-                  ),
+                Image(
+                  image: const Svg('assets/images/authentication.svg'),
+                  height:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? height / 5
+                          : height / 2,
+                  fit: BoxFit.cover,
                 ),
                 Divider(color: Colors.white, height: height / 12),
                 Padding(

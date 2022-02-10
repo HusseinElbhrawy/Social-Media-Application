@@ -1,3 +1,4 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/screens/home/components/verify_widget.dart';
@@ -17,9 +18,9 @@ class HomeScreen extends StatelessWidget {
           HomeScreenBloc()..getCurrentUser(context: context),
       child: BlocConsumer<HomeScreenBloc, SocialAppStates>(
         listener: (BuildContext context, state) {
-          if (state is OpenAddNewPostScreen) {
+          /*if (state is OpenAddNewPostScreen) {
             navigateTo(context: context, nextPage: const AddNewPostScreen());
-          }
+          }*/
         },
         builder: (BuildContext context, Object? state) {
           var homeScreenCubit = HomeScreenBloc.object(context);
@@ -69,16 +70,33 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            /*floatingActionButton: FloatingActionButton(
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: FloatingActionButton(
               backgroundColor: Colors.white,
               onPressed: () {
+                navigateTo(
+                    context: context, nextPage: const AddNewPostScreen());
               },
               child: const Icon(
                 IconBroken.Paper_Upload,
                 color: Colors.black,
               ),
-            ),*/
-            bottomNavigationBar: BottomNavigationBar(
+            ),
+            bottomNavigationBar: AnimatedBottomNavigationBar(
+              icons: homeScreenCubit.icons,
+              activeIndex: homeScreenCubit.bottomNavigationCurrentIndex,
+              gapLocation: GapLocation.center,
+              notchSmoothness: NotchSmoothness.sharpEdge,
+              backgroundColor: Colors.white,
+              activeColor: Colors.blue,
+              inactiveColor: Colors.black,
+              onTap: (index) {
+                homeScreenCubit.changeBottomNavigationBarIndex(newIndex: index);
+              },
+              //other params
+            ),
+            /*bottomNavigationBar: BottomNavigationBar(
               currentIndex: homeScreenCubit.bottomNavigationCurrentIndex,
               onTap: (newIndex) {
                 homeScreenCubit.changeBottomNavigationBarIndex(
@@ -107,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                   label: 'Setting',
                 ),
               ],
-            ),
+            ),*/
           );
         },
       ),

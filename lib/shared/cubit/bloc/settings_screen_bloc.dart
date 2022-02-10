@@ -24,9 +24,8 @@ class SettingsScreenBloc extends Cubit<SocialAppStates> {
       userModel = UserModel.fromJson(value.data()!.cast());
       emit(GetCurrentUserDataSuccess());
     }).catchError((error) {
-      print(
-          'Error happen While get current user data from firestore ${error.message}');
       emit(GetCurrentUserDataFail());
+      print('Error happen While get current user data from firestore $error');
     });
   }
 }

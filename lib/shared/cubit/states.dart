@@ -95,3 +95,17 @@ class PickedProfileCoverLoading extends SocialAppStates {}
 class PickedProfileCoverSuccess extends SocialAppStates {}
 
 class PickedProfileCoverFail extends SocialAppStates {}
+
+class UploadImageToStorageLoading extends SocialAppStates {}
+
+class UploadImageToStorageSuccess extends SocialAppStates {}
+
+class UploadImageToStorageFail extends SocialAppStates {}
+
+class UpdateChangesLoading extends SocialAppStates {}
+
+class UpdateChangesSuccess extends SocialAppStates {}
+
+class UpdateChangesFail extends SocialAppStates {}
+
+class ChangeEditUserInformationState extends SocialAppStates {}
