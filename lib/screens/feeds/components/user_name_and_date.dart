@@ -4,10 +4,11 @@ class UserNameAndDate extends StatelessWidget {
   const UserNameAndDate({
     Key? key,
     required this.width,
+    this.inCreatePostScreen = false,
   }) : super(key: key);
 
   final double width;
-
+  final bool inCreatePostScreen;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,13 +31,13 @@ class UserNameAndDate extends StatelessWidget {
             )
           ],
         ),
-        Text(
-          'January 21,2021 at 11:00 pm',
-          style: Theme.of(context)
-              .textTheme
-              .caption!
-              .copyWith(fontWeight: FontWeight.bold, fontFamily: 'firecode'),
-        )
+        inCreatePostScreen
+            ? Text('')
+            : Text(
+                'January 21,2021 at 11:00 pm',
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                    fontWeight: FontWeight.bold, fontFamily: 'firecode'),
+              )
       ],
     );
   }
