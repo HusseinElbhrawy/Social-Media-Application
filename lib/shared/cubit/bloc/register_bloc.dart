@@ -93,7 +93,7 @@ class RegisterBloc extends Cubit<SocialAppStates> {
         'image':
             'https://image.freepik.com/free-vector/man-shows-gesture-great-idea_10045-637.jpg?w=740',
         'coverImage':
-            'https://image.freepik.com/free-vector/man-shows-gesture-great-idea_10045-637.jpg?w=740',
+            'https://image.freepik.com/free-vector/gradient-metaverse-background_23-2149263788.jpg?w=996',
         'emailVerification': emailVerification,
         'bio': 'Write your bio.....',
       });

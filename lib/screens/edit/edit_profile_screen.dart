@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/screens/login/components/custom_text_form_filed.dart';
@@ -55,48 +57,39 @@ class EditProfileScreen extends StatelessWidget {
                     listener: (BuildContext context, state) {},
                     builder: (BuildContext context, Object? state) =>
                         TextButton(
-                      onPressed: () {
-                        editScreenCubit
-                            .updateUserInformation(
+                      onPressed: () async {
+                        editScreenCubit.profileImageFile != null
+                            ? await editScreenCubit.uploadImage(
+                                imageName:
+                                    editScreenCubit.pickedProfileImage?.name ??
+                                        profileImage,
+                                root: 'profileImage',
+                                file: editScreenCubit.profileImageFile as File,
+                                isProfileCoverImage: false,
+                              )
+                            : editScreenCubit.profileImageUrl = profileImage;
+                        editScreenCubit.profileCoverImageFile != null
+                            ? await editScreenCubit.uploadImage(
+                                imageName:
+                                    editScreenCubit.pickedProfileImage?.name ??
+                                        profileImage,
+                                root: 'profileCover',
+                                file: editScreenCubit.profileCoverImageFile
+                                    as File,
+                                isProfileCoverImage: true,
+                              )
+                            : editScreenCubit.profileCoverImageUrl =
+                                profileCover;
+
+                        await editScreenCubit.updateUserInformation(
+                          imageUrl: profileImage,
+                          coverImageUrl: profileCover,
                           name: nameController.text,
                           bio: bioController.text,
                           phone: phoneController.text,
                           settingsScreenBloc:
                               SettingsScreenBloc.object(context),
-                        )
-                            .then((value) {
-                          SettingsScreenBloc.object(context)
-                              .getCurrentUserData();
-                        });
-                        /* editScreenCubit
-                            .uploadImage(
-                          isProfileCoverImage: false,
-                          imageName: editScreenCubit.pickedProfileImage!.name,
-                          root: 'profileImage',
-                          file: editScreenCubit.profileImageFile as File,
-                        )
-                            .then((value) {
-                          editScreenCubit.updateImagesInDatabase(
-                            profileImageUrl: editScreenCubit.profileImageUrl,
-                            profileCoverImageUrl: null,
-                          );
-                        });
-
-                        //----------------------
-                        editScreenCubit
-                            .uploadImage(
-                          isProfileCoverImage: true,
-                          imageName: editScreenCubit.pickedProfileCoverImage!.name,
-                          root: 'profileCover',
-                          file: editScreenCubit.profileCoverImageFile as File,
-                        )
-                            .then((value) {
-                          editScreenCubit.updateImagesInDatabase(
-                            profileImageUrl: null,
-                            profileCoverImageUrl:
-                                editScreenCubit.profileCoverImageUrl,
-                          );
-                        });*/
+                        );
                       },
                       child: Text(
                         'Update'.toUpperCase(),
@@ -128,15 +121,15 @@ class EditProfileScreen extends StatelessWidget {
                     children: [
                       ProfileCoverAndPicture(
                         isEditScreen: true,
-                        // profileImageFile: editScreenCubit.profileImageFile,
+                        profileImageFile: editScreenCubit.profileImageFile,
                         profileImage: profileImage,
                         profileImageOnTap: () {
-                          // editScreenCubit.pickedImage(isProfileCover: false);
+                          editScreenCubit.pickedImage(isProfileCover: false);
                         },
                         profileCover: profileCover,
-                        // profileCoverFile: editScreenCubit.profileCoverImageFile,
+                        profileCoverFile: editScreenCubit.profileCoverImageFile,
                         coverOnTap: () {
-                          // editScreenCubit.pickedImage(isProfileCover: true);
+                          editScreenCubit.pickedImage(isProfileCover: true);
                         },
                         width: width,
                       ),

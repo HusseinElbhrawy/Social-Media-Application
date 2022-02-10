@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:social_media_app/shared/cubit/bloc/settings_screen_bloc.dart';
 import 'package:social_media_app/shared/cubit/states.dart';
 
@@ -14,7 +18,7 @@ class EditScreenBloc extends Cubit<SocialAppStates> {
     editUserInformation = !editUserInformation;
     emit(ChangeEditUserInformationState());
   }
-/*
+
   var imagePicker = ImagePicker();
   File? profileCoverImageFile, profileImageFile;
   var firebaseStorage = FirebaseStorage.instance;
@@ -46,7 +50,7 @@ class EditScreenBloc extends Cubit<SocialAppStates> {
     }
   }
 
-  late String profileImageUrl = '', profileCoverImageUrl = '';
+  String? profileImageUrl, profileCoverImageUrl;
   Future<void> uploadImage({
     required String imageName,
     required String root,
@@ -89,13 +93,15 @@ class EditScreenBloc extends Cubit<SocialAppStates> {
       print('Updated Fail $error');
       emit(UpdateChangesFail());
     });
-  }*/
+  }
 
   Future updateUserInformation({
     required String name,
     required String bio,
     required String phone,
     required SettingsScreenBloc settingsScreenBloc,
+    required String imageUrl,
+    required String coverImageUrl,
   }) async {
     // UserModel userModel;
     emit(UpdateChangesLoading());
@@ -106,10 +112,15 @@ class EditScreenBloc extends Cubit<SocialAppStates> {
         'name': name,
         'phone': phone,
         'bio': bio,
+        'coverImage': profileCoverImageUrl ?? coverImageUrl,
+        'image': profileImageUrl ?? imageUrl
+/*        'coverImage': profileCoverImageUrl ??
+            'https://image.freepik.com/free-vector/gradient-metaverse-background_23-2149263788.jpg?w=996',
+        'image': profileImageUrl ??
+            'https://image.freepik.com/free-vector/man-shows-gesture-great-idea_10045-637.jpg?w=740',*/
       },
     ).then((value) {
       print('Updated Success');
-      settingsScreenBloc.getCurrentUserData();
       emit(UpdateChangesSuccess());
     }).catchError(
       (error) {
