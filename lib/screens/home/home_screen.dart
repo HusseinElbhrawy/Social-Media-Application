@@ -96,36 +96,6 @@ class HomeScreen extends StatelessWidget {
               },
               //other params
             ),
-            /*bottomNavigationBar: BottomNavigationBar(
-              currentIndex: homeScreenCubit.bottomNavigationCurrentIndex,
-              onTap: (newIndex) {
-                homeScreenCubit.changeBottomNavigationBarIndex(
-                    newIndex: newIndex);
-              },
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Chat),
-                  label: 'Chat',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Paper_Upload),
-                  label: 'Post',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Location),
-                  label: 'Location',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Setting),
-                  label: 'Setting',
-                ),
-              ],
-            ),*/
           );
         },
       ),

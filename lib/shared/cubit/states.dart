@@ -141,3 +141,14 @@ class UploadPickedImageForPostFail extends SocialAppStates {}
 
 //Clear Selected image for post
 class ClearSelectedImageForPost extends SocialAppStates {}
+
+//Feeds Screen initial State
+class FeedsScreenInitialState extends SocialAppStates {}
+
+//Add Like to post states
+
+class AddLikeToPostLoading extends SocialAppStates {}
+
+class AddLikeToPostSuccess extends SocialAppStates {}
+
+class AddLikeToPostFail extends SocialAppStates {}

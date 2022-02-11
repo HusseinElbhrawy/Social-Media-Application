@@ -21,7 +21,7 @@ class AddNewPostScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
 
     return BlocProvider(
-      create: (BuildContext context) => CreatePostBloc(),
+      create: (BuildContext context) => CreatePostBloc()..getCurrentUserData(),
       child: BlocConsumer<CreatePostBloc, SocialAppStates>(
         listener: (BuildContext context, state) {
           if (state is CreatePostSuccess) {
@@ -51,63 +51,70 @@ class AddNewPostScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding * 1.5),
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: state is CreatePostLoading ||
-                            state is UploadPickedImageForPostLoading,
-                        child: const LinearProgressIndicator(),
-                      ),
-                      Row(
-                        children: [
-                          UserImage(
-                            width: MediaQuery.of(context).orientation ==
-                                    Orientation.portrait
-                                ? width / 8
-                                : width / 15,
-                            profileImage: subImage,
-                          ),
-                          const SizedBox(width: 15),
-                          UserNameAndDate(
-                              width: width, inCreatePostScreen: true),
-                        ],
-                      ),
-                      PostTextFormFiled(
-                        postController: postController,
-                        width: width,
-                      ),
-                      Visibility(
-                        visible: createPostCubit.imageFile != null,
-                        child: UploadedImageWithDeleteButton(
-                            createPostCubit: createPostCubit),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextButton.icon(
-                              onPressed: () async {
-                                await createPostCubit.pickedImage();
-                              },
-                              icon: const Icon(IconBroken.Image),
-                              label: const Text('Add Image'),
+              body: state is GetCurrentUserDataLoading
+                  ? const LinearProgressIndicator()
+                  : SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding * 1.5),
+                        child: Column(
+                          children: [
+                            Visibility(
+                              visible: state is CreatePostLoading ||
+                                  state is UploadPickedImageForPostLoading,
+                              child: const LinearProgressIndicator(),
                             ),
-                          ),
-                          Expanded(
-                            child: TextButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(IconBroken.Category),
-                              label: const Text('Tags'),
+                            Row(
+                              children: [
+                                UserImage(
+                                  width: MediaQuery.of(context).orientation ==
+                                          Orientation.portrait
+                                      ? width / 8
+                                      : width / 15,
+                                  profileImage:
+                                      createPostCubit.currentUserData!['image'],
+                                ),
+                                const SizedBox(width: 15),
+                                UserNameAndDate(
+                                  width: width,
+                                  inCreatePostScreen: true,
+                                  userName:
+                                      createPostCubit.currentUserData!['name'],
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                            PostTextFormFiled(
+                              postController: postController,
+                              width: width,
+                            ),
+                            Visibility(
+                              visible: createPostCubit.imageFile != null,
+                              child: UploadedImageWithDeleteButton(
+                                  createPostCubit: createPostCubit),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextButton.icon(
+                                    onPressed: () async {
+                                      await createPostCubit.pickedImage();
+                                    },
+                                    icon: const Icon(IconBroken.Image),
+                                    label: const Text('Add Image'),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(IconBroken.Category),
+                                    label: const Text('Tags'),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
             ),
           );
         },

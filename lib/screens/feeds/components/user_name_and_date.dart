@@ -4,11 +4,15 @@ class UserNameAndDate extends StatelessWidget {
   const UserNameAndDate({
     Key? key,
     required this.width,
+    this.postDate,
+    this.userName,
     this.inCreatePostScreen = false,
   }) : super(key: key);
 
   final double width;
   final bool inCreatePostScreen;
+  final String? userName;
+  final String? postDate;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,7 +21,7 @@ class UserNameAndDate extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Hussein Elbhrawy',
+              userName.toString(),
               style: Theme.of(context).textTheme.headline6!.copyWith(
                     fontFamily: 'jannah',
                     fontWeight: FontWeight.bold,
@@ -34,7 +38,7 @@ class UserNameAndDate extends StatelessWidget {
         inCreatePostScreen
             ? Text('')
             : Text(
-                'January 21,2021 at 11:00 pm',
+                postDate.toString(),
                 style: Theme.of(context).textTheme.caption!.copyWith(
                     fontWeight: FontWeight.bold, fontFamily: 'firecode'),
               )

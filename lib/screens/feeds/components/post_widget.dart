@@ -6,6 +6,7 @@ import 'package:social_media_app/screens/feeds/components/tag_text.dart';
 import 'package:social_media_app/screens/feeds/components/user_image.dart';
 import 'package:social_media_app/screens/feeds/components/user_name_and_date.dart';
 import 'package:social_media_app/shared/config/const.dart';
+import 'package:social_media_app/shared/cubit/bloc/feeds_screen_bloc.dart';
 import 'package:social_media_app/shared/styles/IconBroken.dart';
 
 import 'comment_text_form_field.dart';
@@ -18,12 +19,22 @@ class PostWidget extends StatelessWidget {
     required this.subImage2,
     required this.width,
     required this.height,
+    required this.postDate,
+    required this.userName,
+    required this.postText,
+    required this.postId,
+    required this.index,
   }) : super(key: key);
 
   final String subImage;
   final String subImage2;
   final double width;
   final double height;
+  final String userName;
+  final String postDate;
+  final String postText;
+  final String postId;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +57,11 @@ class PostWidget extends StatelessWidget {
                   profileImage: subImage,
                 ),
                 const SizedBox(width: 15),
-                UserNameAndDate(width: width),
+                UserNameAndDate(
+                  width: width,
+                  postDate: postDate,
+                  userName: userName,
+                ),
                 const Spacer(),
                 IconButton(
                   onPressed: () {},
@@ -55,7 +70,7 @@ class PostWidget extends StatelessWidget {
               ],
             ),
             const Divider(),
-            const PostText(),
+            PostText(postText: postText),
             Wrap(
               children: const [
                 TagText(),
@@ -65,7 +80,13 @@ class PostWidget extends StatelessWidget {
                 TagText(),
               ],
             ),
-            PostImage(subImage2: subImage2, height: height),
+            Visibility(
+              visible: subImage2.isNotEmpty,
+              child: PostImage(
+                subImage2: subImage2,
+                height: height,
+              ),
+            ),
             Row(
               children: [
                 NumberOfLikesAndComments(
@@ -102,7 +123,15 @@ class PostWidget extends StatelessWidget {
                 ReactButton(
                   iconColor: Colors.red,
                   icon: IconBroken.Heart,
-                  onTap: () {},
+                  onTap: () async {
+                    await FeedsScreenBloc.object(context)
+                        .addLikeToPost(postId: postId);
+
+                    /*await FeedsScreenBloc.object(context).isPostLikedOrNot(
+                      postId: postId,
+                      index: 0,
+                    );*/
+                  },
                   title: 'Like',
                 ),
                 ReactButton(

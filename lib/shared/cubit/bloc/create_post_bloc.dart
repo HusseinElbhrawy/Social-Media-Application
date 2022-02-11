@@ -37,8 +37,7 @@ class CreatePostBloc extends Cubit<SocialAppStates> {
           model.toJson(),
         )
         .then((value) {
-      print(value);
-
+      print(value.id);
       emit(CreatePostSuccess());
     }).catchError((error) {
       print('Error While create post $error');
@@ -85,5 +84,24 @@ class CreatePostBloc extends Cubit<SocialAppStates> {
   clearImage() async {
     imageFile = null;
     emit(ClearSelectedImageForPost());
+  }
+
+  Map<String, dynamic>? currentUserData;
+  getCurrentUserData() async {
+    var currentUserUId = FirebaseAuth.instance.currentUser!.uid;
+    emit(GetCurrentUserDataLoading());
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUserUId)
+        .get()
+        .then(
+      (value) {
+        currentUserData = value.data();
+        emit(GetCurrentUserDataSuccess());
+      },
+    ).catchError((error) {
+      print('Error While get current user data $error');
+      emit(GetCurrentUserDataFail());
+    });
   }
 }
