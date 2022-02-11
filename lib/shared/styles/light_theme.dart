@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 lightTheme(context) => ThemeData(
       scaffoldBackgroundColor: Colors.white,
@@ -15,7 +14,7 @@ lightTheme(context) => ThemeData(
         color: Colors.white,
         elevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black),
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Colors.white),
+        // systemOverlayStyle:
+        //     const SystemUiOverlayStyle(statusBarColor: Colors.white),
       ),
     );

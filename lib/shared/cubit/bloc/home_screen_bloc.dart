@@ -74,8 +74,10 @@ class HomeScreenBloc extends Cubit<SocialAppStates> {
     IconBroken.Setting
   ];
 
-  changeBottomNavigationBarIndex({required int newIndex}) {
+  changeBottomNavigationBarIndex(
+      {required int newIndex, required context}) async {
     bottomNavigationCurrentIndex = newIndex;
+
     emit(ChangeBottomNavigationIndex());
   }
 }

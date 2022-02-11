@@ -6,11 +6,11 @@ class UserNameAndDate extends StatelessWidget {
     required this.width,
     this.postDate,
     this.userName,
-    this.inCreatePostScreen = false,
+    this.hidePostDate = false,
   }) : super(key: key);
 
   final double width;
-  final bool inCreatePostScreen;
+  final bool hidePostDate;
   final String? userName;
   final String? postDate;
   @override
@@ -35,7 +35,7 @@ class UserNameAndDate extends StatelessWidget {
             )
           ],
         ),
-        inCreatePostScreen
+        hidePostDate
             ? Text('')
             : Text(
                 postDate.toString(),

@@ -159,3 +159,29 @@ class AddCommentToPostLoading extends SocialAppStates {}
 class AddCommentToPostSuccess extends SocialAppStates {}
 
 class AddCommentToPostFail extends SocialAppStates {}
+
+// Chat Screen Initial State
+class ChatScreenInitialState extends SocialAppStates {}
+
+//get all users
+
+class GetAllUsersLoading extends SocialAppStates {}
+
+class GetAllUsersSuccess extends SocialAppStates {}
+
+class GetAllUsersFail extends SocialAppStates {}
+
+//Chat
+class ChatDetailsScreenInitialState extends SocialAppStates {}
+
+class SendMessageLoading extends SocialAppStates {}
+
+class SendMessageSuccess extends SocialAppStates {}
+
+class SendMessageFail extends SocialAppStates {}
+
+class ReceiveMessageSuccess extends SocialAppStates {}
+
+class ReceiveMessageFail extends SocialAppStates {}
+
+class ReceiveMessageLoading extends SocialAppStates {}

@@ -92,7 +92,8 @@ class HomeScreen extends StatelessWidget {
               activeColor: Colors.blue,
               inactiveColor: Colors.black,
               onTap: (index) {
-                homeScreenCubit.changeBottomNavigationBarIndex(newIndex: index);
+                homeScreenCubit.changeBottomNavigationBarIndex(
+                    newIndex: index, context: context);
               },
               //other params
             ),

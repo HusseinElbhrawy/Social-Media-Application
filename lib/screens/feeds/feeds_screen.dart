@@ -76,16 +76,17 @@ class FeedsScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           _controllers.add(TextEditingController());
                           return PostWidget(
+                            commentImage:
+                                feedsScreenCubit.currentUserData!['image'],
                             commentController: _controllers[index],
                             index: index,
                             postId: snapshot.data!.docs[index].id,
                             postText: snapshot.data!.docs[index]['text'],
                             postDate: snapshot.data!.docs[index]['dateTime'],
-                            userName: feedsScreenCubit.currentUserData!['name'],
+                            userName: snapshot.data!.docs[index]['name'],
                             height: height,
-                            subImage:
-                                feedsScreenCubit.currentUserData!['image'],
-                            subImage2: snapshot.data!.docs[index]['postImage'],
+                            userImage: snapshot.data!.docs[index]['userImage'],
+                            postImage: snapshot.data!.docs[index]['postImage'],
                             width: width,
                           );
                         },

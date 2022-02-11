@@ -76,7 +76,7 @@ class AddNewPostScreen extends StatelessWidget {
                                 const SizedBox(width: 15),
                                 UserNameAndDate(
                                   width: width,
-                                  inCreatePostScreen: true,
+                                  hidePostDate: true,
                                   userName:
                                       createPostCubit.currentUserData!['name'],
                                 ),

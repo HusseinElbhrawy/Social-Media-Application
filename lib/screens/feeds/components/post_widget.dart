@@ -17,8 +17,8 @@ import 'number_of_likes_comments.dart';
 class PostWidget extends StatelessWidget {
   const PostWidget({
     Key? key,
-    required this.subImage,
-    required this.subImage2,
+    required this.userImage,
+    required this.postImage,
     required this.width,
     required this.height,
     required this.postDate,
@@ -26,11 +26,13 @@ class PostWidget extends StatelessWidget {
     required this.postText,
     required this.postId,
     required this.index,
+    required this.commentImage,
     required this.commentController,
   }) : super(key: key);
 
-  final String subImage;
-  final String subImage2;
+  final String userImage;
+  final String commentImage;
+  final String postImage;
   final double width;
   final double height;
   final String userName;
@@ -58,7 +60,7 @@ class PostWidget extends StatelessWidget {
                       MediaQuery.of(context).orientation == Orientation.portrait
                           ? width / 8
                           : width / 15,
-                  profileImage: subImage,
+                  profileImage: userImage,
                 ),
                 const SizedBox(width: 15),
                 UserNameAndDate(
@@ -85,9 +87,9 @@ class PostWidget extends StatelessWidget {
               ],
             ),
             Visibility(
-              visible: subImage2.isNotEmpty,
+              visible: postImage.isNotEmpty,
               child: PostImage(
-                subImage2: subImage2,
+                subImage2: postImage,
                 height: height,
               ),
             ),
@@ -141,7 +143,7 @@ class PostWidget extends StatelessWidget {
                       MediaQuery.of(context).orientation == Orientation.portrait
                           ? width / 10
                           : width / 20,
-                  profileImage: subImage,
+                  profileImage: commentImage,
                   inComment: true,
                 ),
                 const SizedBox(width: 10),
