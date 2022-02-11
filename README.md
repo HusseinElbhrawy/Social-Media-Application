@@ -1,16 +1,28 @@
-# social_media_app
+# Social Media App 
 
-A new Flutter project.
+it is a demo of facebook with real time chat , create posts , add like or comment , update user information like image , cover , name , phone , bio 
 
-## Getting Started
+you can sign in using email and password with email verification  , or using google account.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+### i used firebase as a backend to this project 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## video 
+
+
+
+https://user-images.githubusercontent.com/64389727/153674221-20fd0eba-29ba-4fa6-b9d7-1ad2f23cee7f.mp4
+
+
+
+## screens 
+
+![3](https://user-images.githubusercontent.com/64389727/153673407-a693a7d0-346d-4128-8442-caee9133d584.png)
+
+![6](https://user-images.githubusercontent.com/64389727/153673412-99b1223b-ce57-4101-9488-18dacbb7ff83.png)
+
+![9](https://user-images.githubusercontent.com/64389727/153673418-71ba3a0e-e6dd-44b2-82c8-0f9127885707.png)
+
+
+
