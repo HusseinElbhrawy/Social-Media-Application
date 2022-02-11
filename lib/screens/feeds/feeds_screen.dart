@@ -15,6 +15,7 @@ class FeedsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    List<TextEditingController> _controllers = [];
 
     return BlocProvider(
       create: (BuildContext context) => FeedsScreenBloc()..getCurrentUserData(),
@@ -73,7 +74,9 @@ class FeedsScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
+                          _controllers.add(TextEditingController());
                           return PostWidget(
+                            commentController: _controllers[index],
                             index: index,
                             postId: snapshot.data!.docs[index].id,
                             postText: snapshot.data!.docs[index]['text'],

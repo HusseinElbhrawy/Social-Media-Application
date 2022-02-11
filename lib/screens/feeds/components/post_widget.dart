@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/screens/feeds/components/post_image.dart';
 import 'package:social_media_app/screens/feeds/components/post_text.dart';
@@ -5,6 +6,7 @@ import 'package:social_media_app/screens/feeds/components/react_button.dart';
 import 'package:social_media_app/screens/feeds/components/tag_text.dart';
 import 'package:social_media_app/screens/feeds/components/user_image.dart';
 import 'package:social_media_app/screens/feeds/components/user_name_and_date.dart';
+import 'package:social_media_app/shared/config/components.dart';
 import 'package:social_media_app/shared/config/const.dart';
 import 'package:social_media_app/shared/cubit/bloc/feeds_screen_bloc.dart';
 import 'package:social_media_app/shared/styles/IconBroken.dart';
@@ -24,6 +26,7 @@ class PostWidget extends StatelessWidget {
     required this.postText,
     required this.postId,
     required this.index,
+    required this.commentController,
   }) : super(key: key);
 
   final String subImage;
@@ -35,6 +38,7 @@ class PostWidget extends StatelessWidget {
   final String postText;
   final String postId;
   final int index;
+  final TextEditingController commentController;
 
   @override
   Widget build(BuildContext context) {
@@ -89,18 +93,43 @@ class PostWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                NumberOfLikesAndComments(
-                  onTap: () {},
-                  icon: IconBroken.Heart,
-                  iconColor: Colors.red,
-                  text: '1200',
-                ),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('posts')
+                        .doc(postId)
+                        .collection('likes')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return NumberOfLikesAndComments(
+                          onTap: () {},
+                          icon: IconBroken.Heart,
+                          iconColor: Colors.red,
+                          text: snapshot.data.docs.length.toString(),
+                        );
+                      } else {
+                        return const Text('Loading....');
+                      }
+                    }),
                 const Spacer(),
-                NumberOfLikesAndComments(
-                  onTap: () {},
-                  icon: IconBroken.Info_Circle,
-                  iconColor: Colors.amber,
-                  text: '512 Comment',
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('posts')
+                      .doc(postId)
+                      .collection('comments')
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return NumberOfLikesAndComments(
+                        onTap: () {},
+                        icon: IconBroken.Info_Circle,
+                        iconColor: Colors.amber,
+                        text: snapshot.data.docs.length.toString(),
+                      );
+                    } else {
+                      return const Text('Loading....');
+                    }
+                  },
                 ),
               ],
             ),
@@ -116,9 +145,12 @@ class PostWidget extends StatelessWidget {
                   inComment: true,
                 ),
                 const SizedBox(width: 10),
-                const Expanded(
+                Expanded(
                   flex: 2,
-                  child: CommentTextFormFiled(),
+                  child: CommentTextFormFiled(
+                    validatorMessage: 'Please write...',
+                    commentController: commentController,
+                  ),
                 ),
                 ReactButton(
                   iconColor: Colors.red,
@@ -126,19 +158,25 @@ class PostWidget extends StatelessWidget {
                   onTap: () async {
                     await FeedsScreenBloc.object(context)
                         .addLikeToPost(postId: postId);
-
-                    /*await FeedsScreenBloc.object(context).isPostLikedOrNot(
-                      postId: postId,
-                      index: 0,
-                    );*/
                   },
                   title: 'Like',
                 ),
                 ReactButton(
                   iconColor: Colors.green,
                   icon: IconBroken.Send,
-                  onTap: () {},
-                  title: 'Share',
+                  onTap: () async {
+                    if (commentController.text.isEmpty ||
+                        commentController.text == null) {
+                      warningMotionToast('Please Write Comment ').show(context);
+                    } else {
+                      await FeedsScreenBloc.object(context).addCommentToPost(
+                        postId: postId,
+                        commentText: commentController.text,
+                      );
+                      commentController.clear();
+                    }
+                  },
+                  title: 'Comment',
                 ),
               ],
             ),

@@ -152,3 +152,10 @@ class AddLikeToPostLoading extends SocialAppStates {}
 class AddLikeToPostSuccess extends SocialAppStates {}
 
 class AddLikeToPostFail extends SocialAppStates {}
+//Add Comment to post states
+
+class AddCommentToPostLoading extends SocialAppStates {}
+
+class AddCommentToPostSuccess extends SocialAppStates {}
+
+class AddCommentToPostFail extends SocialAppStates {}

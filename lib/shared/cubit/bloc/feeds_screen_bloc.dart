@@ -46,21 +46,20 @@ class FeedsScreenBloc extends Cubit<SocialAppStates> {
     });
   }
 
-/*  bool isPostLiked = false;
-  isPostLikedOrNot({required postId, required index}) async {
-    String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+  addCommentToPost({required postId, required commentText}) async {
+    emit(AddCommentToPostLoading());
 
+    var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
     await firebaseFirestoreObject
         .collection('posts')
         .doc(postId)
-        .collection('likes')
-        .get()
-        .then((value) {
-      value.docs.forEach((element) {
-        element.id == currentUserUid ? isPostLiked = true : isPostLiked = false;
-      });
+        .collection('comments')
+        .doc(currentUserUid)
+        .set({'comments': commentText}).then((value) {
+      emit(AddCommentToPostSuccess());
     }).catchError((error) {
-      print(error);
+      print('Error while add Comment to post $error');
+      emit(AddCommentToPostFail());
     });
-  }*/
+  }
 }
