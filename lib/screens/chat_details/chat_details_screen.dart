@@ -8,7 +8,7 @@ import 'package:social_media_app/shared/styles/IconBroken.dart';
 
 import 'components/appbar_title.dart';
 import 'components/message_send_button.dart';
-import 'components/reciver_message_widget.dart';
+import 'components/receiver_message_widget.dart';
 import 'components/sender_message_widget.dart';
 
 class ChatDetailsScreen extends StatelessWidget {

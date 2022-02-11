@@ -55,17 +55,6 @@ class ChatDetailsScreenBloc extends Cubit<SocialAppStates> {
     );
   }
 
-  getUseData() {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUserUid)
-        .get()
-        .then((value) {})
-        .catchError(
-          (error) {},
-        );
-  }
-
   void scrollDownToEndOfList({required scrollController}) {
     scrollController.animateTo(
       scrollController.position.maxScrollExtent,
